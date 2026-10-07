@@ -1,0 +1,8 @@
+#!/bin/bash
+
+if [[ $# -ne 1 ]]; then
+  echo "Use: $0 .extension" >&2
+  exit 1
+fi
+
+find . -maxdepth 1 -type f -name "*$1" -print0 | tar -cf archive.tar --null -T -

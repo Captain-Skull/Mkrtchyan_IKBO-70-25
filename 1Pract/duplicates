@@ -1,0 +1,13 @@
+#!/bin/bash
+
+if [[ $# -ne 1 ]]; then
+echo "Use: $0 dir" >&2
+exit 1
+fi
+
+if [[ ! -d "$1" ]]; then
+echo "$0: $1: not a directory" >&2
+exit 1
+fi
+
+find "$1" -type f -print0 | xargs -0 md5sum | sort | uniq -w 32 -D | cut -c 35-

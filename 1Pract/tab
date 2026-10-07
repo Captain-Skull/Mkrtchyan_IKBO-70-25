@@ -1,0 +1,8 @@
+#!/bin/bash
+
+if [[ $# -ne 2 ]]; then
+  echo "Use: $0 input.txt output.txt" >&2
+  exit 1
+fi
+
+sed 's/    /\t/g' "$1" > "$2"

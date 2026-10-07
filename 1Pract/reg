@@ -1,0 +1,15 @@
+#!/bin/bash
+
+if [[ $# -ne 1 ]]; then
+  echo "Use: $0 file" >&2
+  exit 1
+fi
+
+if [[ ! -f "$1" ]]; then
+  echo "$0: $1: not a regular file" >&2
+  exit 1
+fi
+
+chmod 755 "$1"
+
+sudo cp "$1" /usr/local/bin
