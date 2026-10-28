@@ -5,6 +5,7 @@ from tkinter.scrolledtext import ScrolledText
 
 from shell import Shell
 from startup import script_events
+from vfs import VFS, VFSError
 
 
 class Terminal:
@@ -29,6 +30,13 @@ class Terminal:
         self.write("Эмулятор оболочки. Для завершения введите exit.\n")
         self.write(f"[config] VFS: {config.vfs.resolve()}\n")
         self.write(f"[config] Стартовый скрипт: {config.script.resolve() if config.script else 'не задан'}\n")
+        try:
+            self.shell.vfs = VFS.load(config.vfs)
+        except VFSError as exc:
+            self.write(f"Ошибка загрузки VFS: {exc}\nИсправьте CSV или путь и перезапустите программу.\n")
+            self.entry.configure(state=tk.DISABLED)
+            return
+        self.write(f"VFS загружена: {len(self.shell.vfs.nodes)} узлов.\n")
         self.entry.focus_set()
         if config.script:
             self.entry.configure(state=tk.DISABLED)

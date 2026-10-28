@@ -1,0 +1,5 @@
+path,type,content
+/,dir,
+/hello.txt,file,SGVsbG8sIFVOSVghCg==
+/empty.txt,file,
+/binary.bin,file,AP+A
