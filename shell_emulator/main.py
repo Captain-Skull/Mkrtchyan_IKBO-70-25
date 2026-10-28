@@ -2,8 +2,10 @@
 
 
 def main():
+    from config import parse_args
+    config = parse_args()
     from gui import run
-    run()
+    run(config)
 
 
 if __name__ == "__main__":

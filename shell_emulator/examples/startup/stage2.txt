@@ -1,0 +1,7 @@
+ls
+ls /home
+cd /
+unknown
+cd a b
+exit extra
+ls
