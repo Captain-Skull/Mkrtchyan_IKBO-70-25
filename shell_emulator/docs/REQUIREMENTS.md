@@ -31,14 +31,12 @@
 | 5. Скрипт режимов и ошибок | `examples/startup/stage5.txt`; запуск `test_commands.sh`. |
 | 5. Стандартный коммит | `2b708e8 feat(vfs): implement stage 5 file and directory moves`. |
 
-Дополнительно подготовлены общий стартовый скрипт `all.txt`, автоматические
-тесты логики и GUI, инструкция запуска и руководство для защиты.
+Дополнительно подготовлены общий стартовый скрипт `all.txt`,
+инструкция запуска и руководство для защиты.
 
 ## Перед сдачей
 
-1. Запустить `python3 -m unittest discover -s tests -v`.
-2. Запустить `python3 -m tests.gui_smoke` в графическом сеансе.
-3. Показать интерактивный сценарий из `DEFENSE.md`.
-4. Показать `sh scripts/demo.sh`, `sh scripts/test_vfs.sh`, `sh scripts/test_errors.sh`.
-5. Показать `git log --oneline -- shell_emulator` из корня репозитория.
-6. Убедиться, что можешь объяснить `parse_command`, `resolve` и `move`.
+1. Показать интерактивный сценарий из `DEFENSE.md`.
+2. Показать `sh scripts/demo.sh`, `sh scripts/test_vfs.sh`, `sh scripts/test_errors.sh`.
+3. Показать `git log --oneline -- shell_emulator` из корня репозитория.
+4. Убедиться, что можешь объяснить `parse_command`, `resolve` и `move`.
