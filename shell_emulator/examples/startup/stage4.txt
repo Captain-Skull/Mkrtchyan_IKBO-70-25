@@ -1,0 +1,35 @@
+echo Демонстрация основных команд
+ls
+ls -a
+ls /home/student/docs
+ls /hello.txt
+ls /tmp
+cd /home/student
+ls .
+cd docs
+rev readme.txt
+cd ..
+rev notes.txt /hello.txt
+cd ../../..
+cd
+echo
+echo -n Без перевода строки
+echo Следующая команда
+rev /empty.txt
+rev /binary.bin
+rev /tmp
+rev /missing
+rev
+ls -l
+ls a b
+cd a b
+cd /hello.txt
+ls /hello.txt/..
+cd /missing
+clear extra
+clear
+echo Экран очищен; clear удаляет предыдущий видимый вывод
+ls -a /
+vfs-save output/stage4-saved.csv
+unknown
+exit extra
