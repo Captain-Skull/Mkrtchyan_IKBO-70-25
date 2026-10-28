@@ -4,13 +4,14 @@ import tkinter as tk
 from tkinter.scrolledtext import ScrolledText
 
 from shell import Shell
+from startup import script_events
 
 
 class Terminal:
-    def __init__(self, root: tk.Tk, vfs_name: str = "VFS"):
+    def __init__(self, root: tk.Tk, config):
         self.root = root
         self.shell = Shell()
-        root.title(f"Эмулятор оболочки — {vfs_name}")
+        root.title(f"Эмулятор оболочки — {config.vfs.name}")
         root.geometry("920x580")
         self.output = ScrolledText(
             root, wrap=tk.WORD, font=("Courier", 13),
@@ -26,7 +27,25 @@ class Terminal:
         self.entry.pack(side=tk.LEFT, fill=tk.X, expand=True)
         self.entry.bind("<Return>", self.submit)
         self.write("Эмулятор оболочки. Для завершения введите exit.\n")
+        self.write(f"[config] VFS: {config.vfs.resolve()}\n")
+        self.write(f"[config] Стартовый скрипт: {config.script.resolve() if config.script else 'не задан'}\n")
         self.entry.focus_set()
+        if config.script:
+            self.entry.configure(state=tk.DISABLED)
+            self.events = iter(script_events(self.shell, config.script))
+            root.after(100, self.script_step)
+
+    def script_step(self):
+        try:
+            entered, result = next(self.events)
+        except StopIteration:
+            self.entry.configure(state=tk.NORMAL)
+            self.entry.focus_set()
+            return
+        self.write(entered)
+        self.apply(result)
+        if not result.exit:
+            self.root.after(40, self.script_step)
 
     def write(self, text: str):
         self.output.configure(state=tk.NORMAL)
@@ -51,7 +70,7 @@ class Terminal:
             self.root.destroy()
 
 
-def run():
+def run(config):
     root = tk.Tk()
-    Terminal(root)
+    Terminal(root, config)
     root.mainloop()
