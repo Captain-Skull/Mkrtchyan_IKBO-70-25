@@ -124,17 +124,6 @@ sh scripts/test_commands.sh # отдельные сценарии этапов 4
 В Windows те же вызовы `python main.py --vfs ... --script ...` можно выполнять
 в PowerShell, `.sh` запускаются через Bash, например Git Bash.
 
-Автоматические тесты из папки проекта:
-
-```sh
-python3 -m unittest discover -s tests -v
-python3 -m tests.gui_smoke
-```
-
-Первая команда проверяет логику без GUI; вторая создаёт настоящие окна Tk
-в скрытом состоянии, проверяет ввод, очистку, ошибки, скрипт и выход.
-Для второй нужен графический сеанс.
-
 ## Файлы проекта
 
 - `main.py` — точка входа.
@@ -143,7 +132,6 @@ python3 -m tests.gui_smoke
 - `shell.py` — парсер и команды.
 - `startup.py` — последовательное исполнение скрипта.
 - `vfs.py` — CSV, дерево в памяти и операции с ним.
-- `tests/` — тесты логики и отдельная проверка GUI.
 - [docs/DEFENSE.md](docs/DEFENSE.md) — подробное руководство для защиты.
 - [docs/REQUIREMENTS.md](docs/REQUIREMENTS.md) — соответствие требованиям.
 
