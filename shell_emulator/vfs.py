@@ -113,3 +113,35 @@ class VFS:
             return node.data.decode("utf-8")
         except UnicodeError as exc:
             raise VFSError(f"файл не является текстом UTF-8: {path}") from exc
+
+    def move(self, source: str, destination: str, cwd: str) -> tuple[str, str]:
+        source = self.resolve(source, cwd)
+        target = self.resolve(destination, cwd, allow_missing=True)
+        if source == "/":
+            raise VFSError("нельзя перемещать корень VFS")
+        if target in self.nodes and self.nodes[target].kind == "dir":
+            target = posixpath.join(target, posixpath.basename(source))
+        if source == target:
+            raise VFSError("источник и назначение совпадают")
+        if target.startswith(source + "/"):
+            raise VFSError("нельзя переместить каталог внутрь самого себя")
+        if target in self.nodes:
+            if self.nodes[source].kind != self.nodes[target].kind:
+                raise VFSError("нельзя заменить файл каталогом или каталог файлом")
+            if self.nodes[target].kind == "dir" and any(
+                path.startswith(target + "/") for path in self.nodes
+            ):
+                raise VFSError(f"каталог назначения не пуст: {target}")
+        # Проверки завершены. Перестраиваем словарь целиком, не меняя байты файлов.
+        moved = {
+            target + path[len(source):]: node
+            for path, node in self.nodes.items()
+            if path == source or path.startswith(source + "/")
+        }
+        remaining = {
+            path: node for path, node in self.nodes.items()
+            if path != source and not path.startswith(source + "/")
+        }
+        remaining.update(moved)
+        self.nodes = remaining
+        return source, target

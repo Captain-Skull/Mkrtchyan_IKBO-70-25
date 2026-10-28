@@ -80,6 +80,13 @@ class Shell:
                         body = line.rstrip("\r\n")
                         output.append(body[::-1] + line[len(body):])
                 return Result("".join(output))
+            if command == "mv":
+                if len(args) != 2:
+                    raise ShellError("mv: использование: mv источник назначение")
+                source, target = self.vfs.move(args[0], args[1], self.cwd)
+                if self.cwd == source or self.cwd.startswith(source + "/"):
+                    self.cwd = target + self.cwd[len(source):]
+                return Result()
             raise ShellError(f"{command}: неизвестная команда")
         except (ShellError, VFSError) as exc:
             return Result(f"Ошибка: {exc}\n", error=True)
