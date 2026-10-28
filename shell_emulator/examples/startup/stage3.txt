@@ -1,0 +1,12 @@
+ls
+ls /
+cd /
+cd
+ls a b
+cd a b
+unknown
+vfs-save
+vfs-save a b
+vfs-save /nonexistent-shell-emulator-dir/state.csv
+vfs-save output/stage3-saved.csv
+exit extra

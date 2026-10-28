@@ -13,7 +13,12 @@ python3 main.py
 `cd /home`, `cd a b`, `unknown`, `exit extra`, `exit`.
 
 Этап 2: `python3 main.py --vfs examples/vfs/demo.csv --script examples/startup/stage2.txt`.
-Пути к VFS и скрипту отображаются при запуске. Пока VFS не загружается.
+Пути к VFS и скрипту отображаются при запуске.
 Ошибочные строки не прерывают выполнение; `exit` завершает приложение.
 `sh scripts/test_config.sh` и `sh scripts/test_errors.sh` показывают варианты
 параметров. Закрывайте окно для перехода к следующему запуску.
+
+Этап 3: VFS загружается из CSV `path,type,content`. Файлы содержат base64,
+каталоги имеют пустое содержимое. Родители задаются отдельными строками.
+`vfs-save output/state.csv` сохраняет память на диск; папку `output` нужно
+создать заранее. `sh scripts/test_vfs.sh` проверяет три варианта VFS.

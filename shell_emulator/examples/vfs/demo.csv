@@ -1,0 +1,13 @@
+path,type,content
+/,dir,
+/hello.txt,file,SGVsbG8sIFVOSVghCg==
+/empty.txt,file,
+/binary.bin,file,AP+A
+/.hidden,file,aGlkZGVuCg==
+/home,dir,
+/home/student,dir,
+/home/student/docs,dir,
+/home/student/docs/readme.txt,file,0J/RgNC40LLQtdGCLCDQvNC40YAhClB5dGhvbiDQuCBWRlMK
+/home/student/notes.txt,file,b25lCnR3bwo=
+/tmp,dir,
+/archive,dir,

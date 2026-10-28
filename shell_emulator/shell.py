@@ -1,6 +1,9 @@
 """Разбор строки и исполнение команд без привязки к GUI."""
 
 from dataclasses import dataclass
+from pathlib import Path
+
+from vfs import VFS, VFSError
 
 
 class ShellError(Exception):
@@ -21,7 +24,8 @@ def parse_command(line: str) -> tuple[str, list[str]]:
 
 
 class Shell:
-    def __init__(self):
+    def __init__(self, vfs=None):
+        self.vfs = vfs if vfs is not None else VFS()
         self.cwd = "/"
 
     @property
@@ -37,10 +41,15 @@ class Shell:
                 if args:
                     raise ShellError("exit: аргументы не поддерживаются")
                 return Result(exit=True)
+            if command == "vfs-save":
+                if len(args) != 1:
+                    raise ShellError("vfs-save: ожидается один путь в файловой системе ОС")
+                self.vfs.save(Path(args[0]))
+                return Result(f"VFS сохранена: {args[0]}\n")
             if command in ("ls", "cd"):
                 if len(args) > 1:
                     raise ShellError(f"{command}: ожидается не более одного пути")
                 return Result(f"{command}: аргументы: {' '.join(args)}\n")
             raise ShellError(f"{command}: неизвестная команда")
-        except ShellError as exc:
+        except (ShellError, VFSError) as exc:
             return Result(f"Ошибка: {exc}\n", error=True)
