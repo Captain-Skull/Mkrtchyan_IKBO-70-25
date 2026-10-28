@@ -71,3 +71,45 @@ class VFS:
                     writer.writerow([path, node.kind, content])
         except OSError as exc:
             raise VFSError(f"не удалось сохранить {target}: {exc}") from exc
+
+    def resolve(self, path: str, cwd: str = "/", allow_missing: bool = False) -> str:
+        """Проверяем каждый компонент: file/.. не является корректным путём."""
+        current = "/" if path.startswith("/") else cwd
+        parts = [part for part in path.split("/") if part]
+        for index, part in enumerate(parts):
+            if self.nodes[current].kind != "dir":
+                raise VFSError(f"не каталог: {current}")
+            if part == ".":
+                continue
+            if part == "..":
+                current = posixpath.dirname(current) or "/"
+                continue
+            current = posixpath.join(current, part)
+            if current not in self.nodes:
+                if allow_missing and index == len(parts) - 1 and not path.endswith("/"):
+                    return current
+                raise VFSError(f"путь не найден: {current}")
+        if path.endswith("/") and self.nodes[current].kind != "dir":
+            raise VFSError(f"не каталог: {current}")
+        return current
+
+    def list_directory(self, path: str, show_hidden: bool = False) -> list[str]:
+        if self.nodes[path].kind == "file":
+            return [posixpath.basename(path)]
+        names = ["./", "../"] if show_hidden else []
+        for child, node in self.nodes.items():
+            if child == "/" or posixpath.dirname(child) != path:
+                continue
+            name = posixpath.basename(child)
+            if show_hidden or not name.startswith("."):
+                names.append(name + ("/" if node.kind == "dir" else ""))
+        return sorted(names)
+
+    def read_text(self, path: str) -> str:
+        node = self.nodes[path]
+        if node.kind != "file":
+            raise VFSError(f"это каталог: {path}")
+        try:
+            return node.data.decode("utf-8")
+        except UnicodeError as exc:
+            raise VFSError(f"файл не является текстом UTF-8: {path}") from exc
