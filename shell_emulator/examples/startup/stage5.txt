@@ -1,0 +1,30 @@
+echo Переименование файла
+mv /hello.txt /greeting.txt
+ls /
+echo Перемещение файла в существующий каталог
+mv /greeting.txt /tmp
+ls /tmp
+echo Перенос поддерева и обновление текущего пути
+cd /home/student/docs
+mv /home/student /archive
+ls .
+rev readme.txt
+echo Относительный путь
+mv ../notes.txt ../../notes.txt
+ls /archive
+echo Замена файла с сохранением двоичных данных
+mv /binary.bin /empty.txt
+echo Ошибки не должны менять дерево
+mv
+mv /missing /tmp
+mv / /new-root
+mv /archive /archive/student/docs
+mv /archive /empty.txt
+mv /empty.txt /archive/student/docs/readme.txt/child
+mv /tmp/greeting.txt /tmp/greeting.txt
+mv /tmp/greeting.txt /missing/file
+mv /tmp/greeting.txt /archive/student/docs/
+echo Сохранение изменённого состояния
+vfs-save output/stage5-saved.csv
+ls -a /
+exit extra

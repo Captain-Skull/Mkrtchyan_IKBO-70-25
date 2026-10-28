@@ -1,0 +1,37 @@
+echo Демонстрация всех команд
+ls
+ls -a /
+ls /hello.txt
+ls /tmp
+cd /home/student/docs
+rev readme.txt
+cd ..
+rev notes.txt /hello.txt
+cd
+echo
+echo -n Без перевода строки
+echo Продолжение
+mv /hello.txt /greeting.txt
+mv /greeting.txt /tmp
+cd /home/student/docs
+mv /home/student /archive
+ls .
+rev readme.txt
+cd /
+ls -a
+vfs-save output/demo-saved.csv
+unknown
+ls -l
+ls /missing
+cd /empty.txt
+cd a b
+rev /binary.bin
+rev
+clear extra
+mv /archive /archive/student/docs
+mv / /new-root
+mv /missing /tmp
+vfs-save
+vfs-save /nonexistent-shell-emulator-dir/state.csv
+exit extra
+echo Скрипт завершён. Можно вводить команды вручную. Для выхода: exit
