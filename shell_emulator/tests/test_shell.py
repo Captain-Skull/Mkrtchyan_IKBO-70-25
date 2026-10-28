@@ -30,13 +30,9 @@ class ReplTests(unittest.TestCase):
         self.assertFalse(self.shell.execute("exit extra").exit)
         self.assertTrue(self.shell.execute("exit").exit)
 
-    def test_bad_stub_arguments(self):
+    def test_bad_path_argument_counts(self):
         self.assertTrue(self.shell.execute("cd a b").error)
         self.assertTrue(self.shell.execute("ls a b").error)
-
-
-if __name__ == "__main__":
-    unittest.main()
 
 
 class CommandTests(unittest.TestCase):
@@ -93,3 +89,7 @@ class CommandTests(unittest.TestCase):
         for command in ("ls -l", "ls -a / /home", "ls -a -a"):
             with self.subTest(command=command):
                 self.assertTrue(self.shell.execute(command).error)
+
+
+if __name__ == "__main__":
+    unittest.main()
